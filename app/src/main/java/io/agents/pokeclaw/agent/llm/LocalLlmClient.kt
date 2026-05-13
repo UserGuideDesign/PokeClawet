@@ -201,7 +201,7 @@ class LocalLlmClient(private val config: AgentConfig) : LlmClient {
                 is AiMessage -> { /* already in conversation state */ }
                 is ToolExecutionResultMessage -> {
                     // Truncate tool results to prevent token overflow + reduce crash risk
-                    val truncatedResult = msg.text().take(400)
+                    val truncatedResult = msg.text().take(600)   // UPGRADED: was 400
                     val toolResultText = "[Tool ${msg.toolName()} result]: $truncatedResult"
                     val conv = conversation ?: throw RuntimeException("LiteRT-LM conversation not initialized — engine may have failed to load the model")
                     XLog.d(TAG, "chat: sendMessage toolResult (${toolResultText.take(80)}...) sendCount=$sendCount")

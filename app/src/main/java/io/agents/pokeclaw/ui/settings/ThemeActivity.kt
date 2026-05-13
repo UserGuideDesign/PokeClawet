@@ -26,13 +26,18 @@ class ThemeActivity : BaseActivity() {
         val aiBubble: Int,
         val avatar: Int,
         val inputBar: Int,
-        val accent: Int
+        val accent: Int,
+        val previewImageResId: Int = 0 // UPGRADED: Add resource ID for theme preview image
     )
 
     // Only expose ember (brand color). Other themes kept in ThemeManager for future use.
+    // UPGRADED: Expanded theme list to include new themes
     private val themes = listOf(
-        ThemeConfig("ember_dark", "Dark", true, Color.parseColor("#141010"), Color.parseColor("#D45A30"), Color.parseColor("#352A25"), Color.parseColor("#C0542E"), Color.parseColor("#2E2623"), Color.parseColor("#E8845A")),
-        ThemeConfig("ember_light", "Light", false, Color.parseColor("#F0E8E0"), Color.parseColor("#C0542E"), Color.parseColor("#E6D8CA"), Color.parseColor("#C0542E"), Color.parseColor("#D0C4B8"), Color.parseColor("#C0542E")),
+        ThemeConfig("classic_dark", "Classic Dark", true, Color.parseColor("#0D1117"), Color.parseColor("#1F4E9E"), Color.parseColor("#21262D"), Color.parseColor("#1F4E9E"), Color.parseColor("#2A2A2A"), Color.parseColor("#6B9EFF"), R.drawable.theme_preview_classic_dark),
+        ThemeConfig("classic_light", "Classic Light", false, Color.parseColor("#F8F9FC"), Color.parseColor("#3B6FE8"), Color.parseColor("#FFFFFF"), Color.parseColor("#3B6FE8"), Color.parseColor("#D1D9E6"), Color.parseColor("#3B6FE8"), R.drawable.theme_preview_classic_light),
+        ThemeConfig("cyberpunk_dark", "Cyberpunk", true, Color.parseColor("#0A001A"), Color.parseColor("#FF00FF"), Color.parseColor("#003333"), Color.parseColor("#00FFFF"), Color.parseColor("#CC00FF"), Color.parseColor("#FFFF00"), R.drawable.theme_preview_cyberpunk_dark),
+        ThemeConfig("oled_black", "OLED Black", true, Color.parseColor("#000000"), Color.parseColor("#004488"), Color.parseColor("#1A1A1A"), Color.parseColor("#223344"), Color.parseColor("#222222"), Color.parseColor("#66CCFF"), R.drawable.theme_preview_oled_black),
+        ThemeConfig("forest_light", "Forest", false, Color.parseColor("#F0F8EE"), Color.parseColor("#228B22"), Color.parseColor("#F5F5DC"), Color.parseColor("#6B8E23"), Color.parseColor("#C0C8B0"), Color.parseColor("#3CB371"), R.drawable.theme_preview_forest_light),
     )
 
     private var selectedThemeId = "ember_dark"
@@ -58,18 +63,15 @@ class ThemeActivity : BaseActivity() {
         }
         findViewById<TextView>(R.id.tvCurrentTheme)?.setTextColor(tc.aiText)
 
-        selectedThemeId = KVUtils.getString("THEME_ID", "ember_dark")
+        selectedThemeId = KVUtils.getString("THEME_ID", "classic_dark") // UPGRADED: Default to classic_dark
 
-        val viewIds = listOf(R.id.themeEmberDark, R.id.themeEmberLight)
-        // Hide other theme previews
-        listOf(R.id.themeAbyssDark, R.id.themeMossDark, R.id.themeOnyxDark,
-               R.id.themeAbyssLight, R.id.themeMossLight, R.id.themeOnyxLight).forEach {
-            findViewById<View>(it)?.visibility = View.GONE
-        }
+        val themeContainer = findViewById<LinearLayout>(R.id.themePreviewContainer) // UPGRADED: Use a container for dynamic theme previews
+        themeContainer.removeAllViews() // Clear existing views
 
-        themes.forEachIndexed { index, theme ->
-            val view = findViewById<View>(viewIds[index])
-            setupThemePreview(view, theme)
+        themes.forEach { theme ->
+            val themePreviewView = layoutInflater.inflate(R.layout.item_theme_preview, themeContainer, false) // UPGRADED: Inflate new item_theme_preview layout
+            setupThemePreview(themePreviewView, theme)
+            themeContainer.addView(themePreviewView)
         }
 
         updateSelection()
@@ -77,12 +79,8 @@ class ThemeActivity : BaseActivity() {
 
     private fun setupThemePreview(view: View, theme: ThemeConfig) {
         val card = view.findViewById<LinearLayout>(R.id.cardPreview)
-        val userBubble = view.findViewById<View>(R.id.previewUserBubble)
-        val userBubble2 = view.findViewById<View>(R.id.previewUserBubble2)
-        val aiBubble = view.findViewById<View>(R.id.previewAiBubble)
-        val avatar = view.findViewById<View>(R.id.previewAvatar)
-        val inputBar = view.findViewById<View>(R.id.previewInputBar)
         val name = view.findViewById<TextView>(R.id.tvThemeName)
+        val previewImage = view.findViewById<android.widget.ImageView>(R.id.ivThemePreview) // UPGRADED: ImageView for theme preview
 
         // Card background
         val cardBg = GradientDrawable().apply {
@@ -91,21 +89,34 @@ class ThemeActivity : BaseActivity() {
         }
         card.background = cardBg
 
-        // User bubble
-        userBubble.background = roundRect(theme.userBubble, 8f)
-        userBubble2.background = roundRect(theme.userBubble, 8f)
+        // UPGRADED: Load preview image instead of drawing individual elements
+        if (theme.previewImageResId != 0) {
+            previewImage.setImageResource(theme.previewImageResId)
+            previewImage.visibility = View.VISIBLE
+            // Hide old individual preview elements
+            view.findViewById<View>(R.id.previewUserBubble)?.visibility = View.GONE
+            view.findViewById<View>(R.id.previewUserBubble2)?.visibility = View.GONE
+            view.findViewById<View>(R.id.previewAiBubble)?.visibility = View.GONE
+            view.findViewById<View>(R.id.previewAvatar)?.visibility = View.GONE
+            view.findViewById<View>(R.id.previewInputBar)?.visibility = View.GONE
+        } else {
+            previewImage.visibility = View.GONE
+            // Fallback to drawing individual elements if no image provided
+            val userBubble = view.findViewById<View>(R.id.previewUserBubble)
+            val userBubble2 = view.findViewById<View>(R.id.previewUserBubble2)
+            val aiBubble = view.findViewById<View>(R.id.previewAiBubble)
+            val avatar = view.findViewById<View>(R.id.previewAvatar)
+            val inputBar = view.findViewById<View>(R.id.previewInputBar)
 
-        // AI bubble
-        aiBubble.background = roundRect(theme.aiBubble, 8f)
-
-        // Avatar
-        avatar.background = oval(theme.avatar)
-
-        // Input bar
-        inputBar.background = GradientDrawable().apply {
-            setColor(Color.TRANSPARENT)
-            setStroke(dp(1).toInt(), theme.inputBar)
-            cornerRadius = dp(6f)
+            userBubble?.background = roundRect(theme.userBubble, 8f)
+            userBubble2?.background = roundRect(theme.userBubble, 8f)
+            aiBubble?.background = roundRect(theme.aiBubble, 8f)
+            avatar?.background = oval(theme.avatar)
+            inputBar?.background = GradientDrawable().apply {
+                setColor(Color.TRANSPARENT)
+                setStroke(dp(1).toInt(), theme.inputBar)
+                cornerRadius = dp(6f)
+            }
         }
 
         name.text = theme.name
@@ -133,10 +144,10 @@ class ThemeActivity : BaseActivity() {
     }
 
     private fun updateSelection() {
-        val allViews = listOf(R.id.themeEmberDark, R.id.themeEmberLight)
-
-        themes.forEachIndexed { index, theme ->
-            val view = findViewById<View>(allViews[index])
+        val themeContainer = findViewById<LinearLayout>(R.id.themePreviewContainer)
+        for (i in 0 until themeContainer.childCount) {
+            val view = themeContainer.getChildAt(i)
+            val theme = themes[i]
             val indicator = view.findViewById<View>(R.id.selectedIndicator)
             val isSelected = theme.id == selectedThemeId
 

@@ -29,8 +29,8 @@ import java.io.File
 object ConversationCompactor {
 
     private const val TAG = "Compactor"
-    private const val COMPACT_CHAR_THRESHOLD = 8000 // ~2000 tokens, ~50% of 32K
-    private const val KEEP_RECENT_MESSAGES = 5
+    private const val COMPACT_CHAR_THRESHOLD = 24000 // UPGRADED: was 8000 — matches new 16K context window
+    private const val KEEP_RECENT_MESSAGES = 10 // UPGRADED: was 5 — preserve more recent context
 
     /**
      * Check if conversation needs compaction.

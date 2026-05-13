@@ -84,7 +84,7 @@ class DefaultAgentService : AgentService {
 - Do NOT auto-fill passwords, confirm payments, or delete data."""
 
         /** Maximum number of retries on LLM API call failure */
-        private const val MAX_API_RETRIES = 3
+        private const val MAX_API_RETRIES = 2   // UPGRADED: was 3
         /** Dead-loop detection: sliding window size */
         private const val LOOP_DETECT_WINDOW = 4
 
@@ -102,7 +102,7 @@ class DefaultAgentService : AgentService {
             "clipboard", "send_file", "repeat_actions", "wait"
         )
         /** ms to wait for UI to settle before capturing screen after an action */
-        private const val SCREEN_SETTLE_MS = 500L
+        private const val SCREEN_SETTLE_MS = 250L   // UPGRADED: was 500ms
 
         /** Whether to write raw network request/response data to sandbox cache files for debugging */
         @JvmField
@@ -316,7 +316,7 @@ class DefaultAgentService : AgentService {
     // ==================== Context Compression ====================
 
     /** Protected zone: keep the most recent N rounds intact */
-    private val KEEP_RECENT_ROUNDS = 3
+    private val KEEP_RECENT_ROUNDS = 5   // UPGRADED: was 3
 
     /** Large-output observation tools → compressed placeholder */
     private val OBSERVATION_PLACEHOLDERS = mapOf(

@@ -37,6 +37,7 @@ import io.agents.pokeclaw.agent.skill.Skill
 import io.agents.pokeclaw.agent.skill.SkillCategory
 import io.agents.pokeclaw.agent.skill.SkillRegistry
 import androidx.compose.ui.graphics.Color
+import io.agents.pokeclaw.ui.theme.PokeclawColors
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.focus.FocusManager
@@ -62,39 +63,9 @@ import java.util.Locale
 
 // ======================== THEME COLORS ========================
 
-data class PokeclawColors(
-    val background: Color,
-    val surface: Color,
-    val userBubble: Color,
-    val userText: Color,
-    val aiBubble: Color,
-    val aiBubbleBorder: Color,
-    val aiText: Color,
-    val avatar: Color,
-    val accent: Color,
-    val textPrimary: Color,
-    val textSecondary: Color,
-    val textTertiary: Color,
-    val divider: Color,
-    val inputBorder: Color,
-)
 
-val AbyssDark = PokeclawColors(
-    background = Color(0xFF0C111B),
-    surface = Color(0xFF151D2E),
-    userBubble = Color(0xFF2563EB),
-    userText = Color.White,
-    aiBubble = Color(0xFF1E2D45),
-    aiBubbleBorder = Color(0xFF2A3D5A),
-    aiText = Color(0xFFD0DAE8),
-    avatar = Color(0xFF1D4ED8),
-    accent = Color(0xFF60A5FA),
-    textPrimary = Color(0xFFECECF1),
-    textSecondary = Color(0xFFA3A3B5),
-    textTertiary = Color(0xFF52526E),
-    divider = Color(0xFF1A2234),
-    inputBorder = Color(0xFF1E293B),
-)
+
+
 
 private fun Modifier.dismissKeyboardOnBackgroundTap(onDismissKeyboard: () -> Unit): Modifier =
     pointerInput(onDismissKeyboard) {
@@ -140,7 +111,8 @@ fun ChatScreen(
     onStopAllTasks: () -> Unit = {},
     inputEnabled: Boolean = true,
     onModelSwitch: (modelId: String, displayName: String) -> Unit = { _, _ -> },
-    colors: PokeclawColors = AbyssDark,
+    colors: PokeclawColors = ThemeManager.getColors().toComposeColors(), // UPGRADED: Use ThemeManager for default colors
+
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current

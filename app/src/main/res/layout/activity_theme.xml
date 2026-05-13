@@ -22,96 +22,22 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Dark themes section -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:text="Dark Themes"
+                android:text="Choose your theme"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="13dp"
                 android:textStyle="bold" />
 
+            <!-- UPGRADED: Dynamic container for theme previews -->
             <LinearLayout
+                android:id="@+id/themePreviewContainer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <include layout="@layout/item_theme_preview"
-                    android:id="@+id/themeEmberDark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp" />
-
-                <include layout="@layout/item_theme_preview"
-                    android:id="@+id/themeAbyssDark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp" />
-
-                <include layout="@layout/item_theme_preview"
-                    android:id="@+id/themeMossDark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp" />
-
-                <include layout="@layout/item_theme_preview"
-                    android:id="@+id/themeOnyxDark"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp" />
-            </LinearLayout>
-
-            <!-- Light themes section -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp"
-                android:paddingBottom="10dp"
-                android:text="Light Themes"
-                android:textColor="@color/colorTextSecondary"
-                android:textSize="13dp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <include layout="@layout/item_theme_preview"
-                    android:id="@+id/themeEmberLight"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp" />
-
-                <include layout="@layout/item_theme_preview"
-                    android:id="@+id/themeAbyssLight"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp" />
-
-                <include layout="@layout/item_theme_preview"
-                    android:id="@+id/themeMossLight"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp" />
-
-                <include layout="@layout/item_theme_preview"
-                    android:id="@+id/themeOnyxLight"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_margin="4dp" />
-            </LinearLayout>
+                android:orientation="vertical"
+                android:gravity="center_horizontal" />
 
             <!-- Current selection -->
             <TextView
@@ -121,7 +47,7 @@
                 android:gravity="center"
                 android:paddingTop="24dp"
                 android:paddingBottom="24dp"
-                android:text="Current: Abyss Dark"
+                android:text="Current: Classic Dark"
                 android:textColor="@color/colorTextSecondary"
                 android:textSize="14dp" />
 

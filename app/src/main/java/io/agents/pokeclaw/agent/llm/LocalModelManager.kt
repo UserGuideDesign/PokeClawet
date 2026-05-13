@@ -70,35 +70,107 @@ object LocalModelManager {
         NEUTRAL,
     }
 
+    // UPGRADED: Expanded from 2 Gemma-only models to 10 models across 5 families
     val AVAILABLE_MODELS = listOf(
+        // ── Gemma 4 (Google) ────────────────────────────────────────────────────
         ModelInfo(
             id = "gemma4-e2b",
-            displayName = "Gemma 4 E2B — 2.6GB",
+            displayName = "Gemma 4 E2B · 2.6 GB  ★ Recommended",
             url = "https://huggingface.co/litert-community/gemma-4-E2B-it-litert-lm/resolve/main/gemma-4-E2B-it.litertlm",
             fileName = "gemma-4-E2B-it.litertlm",
             sizeBytes = 2_580_000_000L,
-            minRamGb = 8
+            minRamGb = 6
         ),
         ModelInfo(
             id = "gemma4-e4b",
-            displayName = "Gemma 4 E4B — 3.6GB",
+            displayName = "Gemma 4 E4B · 3.6 GB  ★★ Better quality",
             url = "https://huggingface.co/litert-community/gemma-4-E4B-it-litert-lm/resolve/main/gemma-4-E4B-it.litertlm",
             fileName = "gemma-4-E4B-it.litertlm",
             sizeBytes = 3_650_000_000L,
-            minRamGb = 10
+            minRamGb = 8
+        ),
+        // ── Llama 3.2 (Meta) ────────────────────────────────────────────────────
+        ModelInfo(
+            id = "llama32-1b",
+            displayName = "Llama 3.2 1B · 0.8 GB  ⚡ Ultra-fast",
+            url = "https://huggingface.co/litert-community/Llama-3.2-1B-Instruct-litert-lm/resolve/main/Llama-3.2-1B-Instruct.litertlm",
+            fileName = "Llama-3.2-1B-Instruct.litertlm",
+            sizeBytes = 800_000_000L,
+            minRamGb = 4
+        ),
+        ModelInfo(
+            id = "llama32-3b",
+            displayName = "Llama 3.2 3B · 2.0 GB  ★ Balanced",
+            url = "https://huggingface.co/litert-community/Llama-3.2-3B-Instruct-litert-lm/resolve/main/Llama-3.2-3B-Instruct.litertlm",
+            fileName = "Llama-3.2-3B-Instruct.litertlm",
+            sizeBytes = 2_000_000_000L,
+            minRamGb = 6
+        ),
+        // ── Phi-3.5 (Microsoft) ─────────────────────────────────────────────────
+        ModelInfo(
+            id = "phi35-mini",
+            displayName = "Phi-3.5 Mini · 2.2 GB  ★ Reasoning",
+            url = "https://huggingface.co/litert-community/Phi-3.5-mini-instruct-litert-lm/resolve/main/Phi-3.5-mini-instruct.litertlm",
+            fileName = "Phi-3.5-mini-instruct.litertlm",
+            sizeBytes = 2_200_000_000L,
+            minRamGb = 6
+        ),
+        // ── Qwen 2.5 (Alibaba) ──────────────────────────────────────────────────
+        ModelInfo(
+            id = "qwen25-0.5b",
+            displayName = "Qwen 2.5 0.5B · 0.4 GB  ⚡ Smallest",
+            url = "https://huggingface.co/litert-community/Qwen2.5-0.5B-Instruct-litert-lm/resolve/main/Qwen2.5-0.5B-Instruct.litertlm",
+            fileName = "Qwen2.5-0.5B-Instruct.litertlm",
+            sizeBytes = 400_000_000L,
+            minRamGb = 3
+        ),
+        ModelInfo(
+            id = "qwen25-1.5b",
+            displayName = "Qwen 2.5 1.5B · 1.0 GB  ⚡ Fast",
+            url = "https://huggingface.co/litert-community/Qwen2.5-1.5B-Instruct-litert-lm/resolve/main/Qwen2.5-1.5B-Instruct.litertlm",
+            fileName = "Qwen2.5-1.5B-Instruct.litertlm",
+            sizeBytes = 1_000_000_000L,
+            minRamGb = 4
+        ),
+        ModelInfo(
+            id = "qwen25-3b",
+            displayName = "Qwen 2.5 3B · 2.0 GB  ★ Balanced",
+            url = "https://huggingface.co/litert-community/Qwen2.5-3B-Instruct-litert-lm/resolve/main/Qwen2.5-3B-Instruct.litertlm",
+            fileName = "Qwen2.5-3B-Instruct.litertlm",
+            sizeBytes = 2_000_000_000L,
+            minRamGb = 6
+        ),
+        // ── DeepSeek-R1 Distill ─────────────────────────────────────────────────
+        ModelInfo(
+            id = "deepseek-r1-1.5b",
+            displayName = "DeepSeek-R1 1.5B · 1.0 GB  🧠 Reasoning",
+            url = "https://huggingface.co/litert-community/DeepSeek-R1-Distill-Qwen-1.5B-litert-lm/resolve/main/DeepSeek-R1-Distill-Qwen-1.5B.litertlm",
+            fileName = "DeepSeek-R1-Distill-Qwen-1.5B.litertlm",
+            sizeBytes = 1_000_000_000L,
+            minRamGb = 4
+        ),
+        ModelInfo(
+            id = "deepseek-r1-7b",
+            displayName = "DeepSeek-R1 7B · 4.5 GB  🧠★★ Best reasoning",
+            url = "https://huggingface.co/litert-community/DeepSeek-R1-Distill-Qwen-7B-litert-lm/resolve/main/DeepSeek-R1-Distill-Qwen-7B.litertlm",
+            fileName = "DeepSeek-R1-Distill-Qwen-7B.litertlm",
+            sizeBytes = 4_500_000_000L,
+            minRamGb = 12
         ),
     )
 
     /**
      * Pick the best model for this device based on available RAM.
-     * Devices with 12GB+ RAM get E4B, everyone else gets E2B.
+     * UPGRADED: Tiered selection across 10 models instead of just 2.
      */
     fun recommendedModel(context: Context): ModelInfo {
         val totalRamGb = getDeviceRamGb(context)
-        return if (totalRamGb >= 12) {
-            AVAILABLE_MODELS.first { it.id == "gemma4-e4b" }
-        } else {
-            AVAILABLE_MODELS.first { it.id == "gemma4-e2b" }
+        return when {
+            totalRamGb >= 12 -> AVAILABLE_MODELS.first { it.id == "deepseek-r1-7b" }   // Best reasoning
+            totalRamGb >= 8  -> AVAILABLE_MODELS.first { it.id == "gemma4-e4b" }        // High quality
+            totalRamGb >= 6  -> AVAILABLE_MODELS.first { it.id == "gemma4-e2b" }        // Recommended
+            totalRamGb >= 4  -> AVAILABLE_MODELS.first { it.id == "llama32-1b" }        // Fast + light
+            else             -> AVAILABLE_MODELS.first { it.id == "qwen25-0.5b" }       // Smallest
         }
     }
 

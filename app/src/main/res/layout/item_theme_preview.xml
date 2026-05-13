@@ -1,75 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:gravity="center"
-    android:padding="4dp">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:gravity="center_horizontal">
 
-    <!-- Theme preview card -->
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:id="@+id/cardPreview"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_height="180dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp"
+        android:layout_marginBottom="8dp">
 
-        <!-- Fake chat bubbles -->
-        <View
-            android:id="@+id/previewUserBubble"
-            android:layout_width="50dp"
-            android:layout_height="14dp"
-            android:layout_gravity="end"
-            android:layout_marginBottom="4dp" />
+        <ImageView
+            android:id="@+id/ivThemePreview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/theme_preview_classic_dark" />
 
+        <!-- Old individual preview elements (kept for fallback, but hidden if image is present) -->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="4dp"
-            android:gravity="center_vertical">
+            android:id="@+id/previewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="8dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginBottom="4dp">
+                <View
+                    android:id="@+id/previewUserBubble"
+                    android:layout_width="80dp"
+                    android:layout_height="24dp"
+                    android:background="#D45A30" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start"
+                android:layout_marginBottom="4dp">
+                <View
+                    android:id="@+id/previewAvatar"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="#C0542E" />
+                <View
+                    android:id="@+id/previewAiBubble"
+                    android:layout_width="100dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="4dp"
+                    android:background="#352A25" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:layout_marginBottom="4dp">
+                <View
+                    android:id="@+id/previewUserBubble2"
+                    android:layout_width="120dp"
+                    android:layout_height="24dp"
+                    android:background="#D45A30" />
+            </LinearLayout>
 
             <View
-                android:id="@+id/previewAvatar"
-                android:layout_width="12dp"
-                android:layout_height="12dp"
-                android:layout_marginEnd="4dp" />
-
-            <View
-                android:id="@+id/previewAiBubble"
-                android:layout_width="40dp"
-                android:layout_height="14dp" />
+                android:id="@+id/previewInputBar"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:background="#2E2623" />
         </LinearLayout>
 
         <View
-            android:id="@+id/previewUserBubble2"
-            android:layout_width="35dp"
-            android:layout_height="14dp"
-            android:layout_gravity="end"
-            android:layout_marginBottom="4dp" />
+            android:id="@+id/selectedIndicator"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp"
+            android:background="#E8845A"
+            android:visibility="invisible" />
 
-        <!-- Fake input bar -->
-        <View
-            android:id="@+id/previewInputBar"
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:layout_marginTop="12dp" />
-    </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-    <!-- Selected indicator -->
-    <View
-        android:id="@+id/selectedIndicator"
-        android:layout_width="24dp"
-        android:layout_height="3dp"
-        android:layout_marginTop="6dp"
-        android:visibility="invisible" />
-
-    <!-- Theme name -->
     <TextView
         android:id="@+id/tvThemeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:textColor="@color/colorTextSecondary"
-        android:textSize="11dp" />
+        android:text="Theme Name"
+        android:textColor="?android:textColorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
 </LinearLayout>
